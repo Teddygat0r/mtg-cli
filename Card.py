@@ -1,19 +1,3 @@
-"""
-Parts of a card:
-Name - done xd
-Mana Cost
-Typeline(supertypes and subtypes)
-Text Box
-P/T if creature
-Counters
-Tapped/Untapped
-Transformed/untransformed(daybound/nightbound, disturb, sagas, etc)
-Face up/Face down(like 3 cards in standard care about this)
-What zone it's in(for effects like cult conscript)
-
-Not relevant in standard:
-Flipped/Unflipped(only for OG kamigawa)
-"""
 class Card:
     name = "Uninitalized Card"
     mana_cost = {}
@@ -30,6 +14,7 @@ class Card:
     controller = None # will be set to a player object
     owner = None
     
+    abilities = []
     misc_effects = {} # for cleave, kicker, serra paragon, soulbond, etc
     """
     types of mana: 
@@ -42,8 +27,13 @@ class Card:
     flipped = False # this isn't relevant to standard
     
     
-    def __init__(self, name):
+    def __init__(self, name, cost, types, currentzone, ownerplayer):
         self.name = name
+        self.mana_cost = cost
+        self.typeline = types
+        self.zone = currentzone
+        self.controller = ownerplayer
+        owner = ownerplayer
     def __str__(self):
         return self.name
     
