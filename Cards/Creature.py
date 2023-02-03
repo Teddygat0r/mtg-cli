@@ -7,3 +7,9 @@ class Creature(Card):
         super(name, cost, types, currentzone, ownerplayer)
         self.power = power
         self.toughness = toughness
+
+    def getPower(self):
+        return power
+
+    def getToughness(self):
+        return toughness
