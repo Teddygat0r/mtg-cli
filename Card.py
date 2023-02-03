@@ -16,6 +16,7 @@ class Card:
     
     abilities = []
     misc_effects = {} # for cleave, kicker, serra paragon, soulbond, etc
+    attached = [] # for stuff attached to this card
     """
     types of mana: 
     WUBRG, generic, snow, colorless, X(WUBRG, generic, S, C, X)
