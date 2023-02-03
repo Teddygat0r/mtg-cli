@@ -133,3 +133,4 @@ Lib/
 Scripts/
 pyvenv.cfg
 Card.py.bak
+Game/Player.py
