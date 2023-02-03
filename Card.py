@@ -6,6 +6,7 @@ class Card:
     
     typeline: list[str] = []
     
+    is_copy: bool = False # to help with SBA 704.5e https://media.wizards.com/2023/downloads/MagicCompRules%2020230203.pdf
     tapped: bool = False
     transformed: bool = False
     facedown: bool = False
