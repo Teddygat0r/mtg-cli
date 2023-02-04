@@ -15,10 +15,6 @@ class Player:
         for i in range(x):
             self.draw()
     def draw(self):
-    """
-    This should not be in player class because players losing the game from drawing is a state-based action, it doesn't happen instantaneously
-        if(len(self.deck) == 0):
-            return Player.lose()
-            """
+        print('death')
             
     
