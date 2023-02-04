@@ -16,9 +16,12 @@ class Game:
                 if "Token" in currentCard.typeline:
                     #SBA 704.5d
                     if currentCard.zone != "Battlefield":
-                            #delete the card or something idk does this work?
-                            currentCard.zone.remove(currentCard)
+                            #delete the card or something
                             SBAperformed = True
+                if currentCard.is_copy and currentCard.zone != "Stack" and currentCard.zone != "Battlefield":
+                    #SBA 704.5e
+                    #delete the card idk how to implement
+                    SBAperformed = True
                 if "Creature" in currentCard.typeline:
                     if currentCard.getToughness <= 0:
                         #SBA 704.5f
