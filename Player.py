@@ -1,15 +1,16 @@
+import random
 class Player:
-    life = 20
-    counters = {} # poison is in standard
-    hand = []
-    graveyard = []
-    exile = []
-    deck = []
-    battlefield = [] # having a lands array is redundant because it doesn't help with mana tapping
-    #lands = []
 
     def __init__(self, deck):
-        self.deck = deck
+        self.deck = deck # deck is probably an array of cards
+        random.shuffle(deck)
+        self.life = 20
+        self.counters = {}
+        self.hand = []
+        self.graveyard = []
+        self.exile = []
+        self.deck = []
+        self.battlefield = []
 
     def drawCards(self, x: int):
         for i in range(x):

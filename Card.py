@@ -18,7 +18,7 @@ class Card:
         self.zone = currentzone
         self.controller = ownerplayer
         self.owner = ownerplayer
-
+        
         self.counters: dict[str, int] = {}
         self.abilities = []
 
@@ -31,7 +31,8 @@ class Card:
         self.facedown: bool = False
         self.etb_this_turn: bool = False # needed for cards like Mirrex
         self.flipped: bool = False # this isn't relevant to standard
-
+        self.damage: int = 0
+        
         self.power = power
         self.toughness = toughness
 
@@ -39,8 +40,29 @@ class Card:
         return self.name
     
     def getPower(self):
-        return self.power + self.counters['+1/+1'] - self.counters['-1/-1']
+        currentPower = self.power
+        if "+1/+1" in self.counters:
+            currentPower += self.counters["+1/+1"]
+        currentpower = self.power
+        if "-1/-1" in self.counters:
+            currentPower -= self.counters["-1/-1"]
+        #TODO: apply modifiers from self.misc_effects(this is presumably where combat tricks go)
+        return currentPower
     
     def getToughness(self):
-        return self.toughness + self.counters['+1/+1'] - self.counters['-1/-1']
+        currentToughness = self.toughness
+        if "+1/+1" in self.counters:
+            currentToughness += self.counters["+1/+1"]
+        currentToughness = self.power
+        if "-1/-1" in self.counters:
+            currentToughness -= self.counters["-1/-1"]
+        #TODO: apply modifiers from self.misc_effects(this is presumably where combat tricks go)
+        return currentToughness
     
+    def destroy(self):
+        #trigger any regeneration effects and indestructible
+        self.dies()
+        
+    def dies(self):
+        self.zone = "Graveyard"
+        #trigger "when this dies/when this is put in a graveyard from the battlefield"

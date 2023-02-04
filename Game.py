@@ -1,17 +1,52 @@
 import Player
+import Card
 
 class Game: 
-    player1 = null
-    player2 = null
+    player1 = None
+    player2 = None
 
-    def __init__():
+    def __init__(self):
         player1 = Player()
         player2 = Player()
     
-    def stateBasedActions():
-        #for i in player1.battlefield:
-        #    if "Creature" in i.typeline:
+    def stateBasedActions(self):
+        SBAperformed = False
+        for player in [self.player1, self.player2]:
+            for currentCard in player.battlefield:
+                if "Token" in currentCard.typeline:
+                    #SBA 704.5d
+                    if currentCard.zone != "Battlefield":
+                            #delete the card or something idk does this work?
+                            currentCard.zone.remove(currentCard)
+                            SBAperformed = True
+                if "Creature" in currentCard.typeline:
+                    if currentCard.getToughness <= 0:
+                        #SBA 704.5f
+                        currentCard.dies()
+                        SBAperformed = True
+                    elif currentCard.damage >= currentCard.getToughness:
+                        #SBA 704.5g
+                        currentCard.destroy()
+                        SBAperformed = True
+                    #how to implement deathtouch?
+                if "+1/+1" in currentCard.counters and "-1/-1" in currentCard.counters:
+                    #SBA 704.5q
+                    if currentCard.counters["+1/+1"] > currentCard.counters["-1/-1"]:
+                        currentCard.counters["+1/+1"] -= currentCard.counters["-1/-1"]
+                        del currentCard.counters["-1/-1"]
+                        SBAperformed = True
+                    elif currentCard.counters["+1/+1"] < currentCard.counters["-1/-1"]:
+                        currentCard.counters["-1/-1"] -= currentCard.counters["+1/+1"]
+                        del currentCard.counters["+1/+1"]
+                        SBAperformed = True
+                    else:
+                        del currentCard.counters["+1/+1"]
+                        del currentCard.counters["-1/-1"]
+                        SBAperformed = True
                 
+                    
+        if SBAperformed:
+            stateBasedActions()
         """
         704.5. The state-based actions are as follows:
 704.5a If a player has 0 or less life, that player loses the game.
@@ -62,4 +97,8 @@ battlefield, each player who controls one or more of those creatures and doesn�
 permanent with space sculptor chooses a sector designation for each of those creatures they
 control. Then, each other player who controls one or more of those creatures chooses a sector
 designation for each of those creatures they control. See 702.158, “Space Sculptor.”
+
+Implemented:
+
+
 """
