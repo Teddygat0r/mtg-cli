@@ -1,9 +1,10 @@
 import random
-class Player:
+import copy
 
+class Player:
     def __init__(self, deck, name):
         self.library = deck # deck is probably an array of cards
-        random.shuffle(self.library)
+        random.shuffle(self.library) # self.library[0] = top card of library
         self.life = 20
         self.name = name
         self.counters = {}
@@ -11,11 +12,20 @@ class Player:
         self.graveyard = []
         self.exile = []
         self.battlefield = []
+        self.drew_from_empty = False
 
     def drawCards(self, x: int):
         for i in range(x):
             self.draw()
     def draw(self):
+        if len(self.library) == 0:
+            self.drew_from_empty = True
+        else:
+            self.hand.append(copy.deepcopy(self.library[0]))
+            self.hand[-1].zone = "Hand"
+            del self.library[0]
+            
+    def loseGame(self):
         print('death')
             
     

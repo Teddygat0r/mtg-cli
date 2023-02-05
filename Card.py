@@ -1,8 +1,8 @@
 import Player
 
+
 class Card:  
-    
-    
+
     """
     types of mana: 
     WUBRG, generic, snow, colorless, X(WUBRG, generic, S, C, X)

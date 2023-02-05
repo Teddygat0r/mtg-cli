@@ -1,5 +1,6 @@
 import Player
 import Card
+import copy
 
 class Game: 
     player1 = None
@@ -15,7 +16,23 @@ class Game:
         SBAperformed = False
         
         for player in [self.player1, self.player2]:
+            player1lost = False
+            player2lost = False
+            if player1.life <= 0:
+                #SBA 704.5a
+                player1lost = True
+            if player1.drew_from_empty:
+                #SBA 704.5b
+                player1lost = True
+            if player2.life <= 0:
+                #SBA 704.5a
+                player2lost = True
+            if player2.drew_from_empty:
+                #SBA 704.5b
+                player2lost = True
+            
             #handle losing the game here?
+            
             for currentCard in player.battlefield:
                 if "Creature" in currentCard.typeline:
                     if currentCard.getToughness <= 0:
