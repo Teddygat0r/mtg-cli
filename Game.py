@@ -6,11 +6,14 @@ class Game:
     player2 = None
 
     def __init__(self):
-        player1 = Player()
-        player2 = Player()
+        player1 = Player([], "player1")
+        player2 = Player([], "player2")
+    
+    
     
     def stateBasedActions(self):
         SBAperformed = False
+        
         for player in [self.player1, self.player2]:
             #handle losing the game here?
             for currentCard in player.battlefield:
@@ -54,6 +57,7 @@ class Game:
             
         if SBAperformed:
             self.stateBasedActions()
+    
         """
         704.5. The state-based actions are as follows:
 704.5a If a player has 0 or less life, that player loses the game.

@@ -23,7 +23,8 @@ class Card:
         self.abilities = []
 
         self.misc_effects: object = {} # for cleave, kicker, serra paragon, soulbond, etc
-        self.attached: list[Card] = [] # for stuff attached to this card
+        self.attachedCards: list[Card] = [] # for stuff attached to this card
+        self.attachedTo: Card = None # for something this card is attached to
 
         self.is_copy: bool = False # to help with SBA 704.5e https://media.wizards.com/2023/downloads/MagicCompRules%2020230203.pdf
         self.tapped: bool = False
@@ -40,7 +41,17 @@ class Card:
         self.replacement: dict[str, list[function]] = {}
 
     def __str__(self) -> str:
-        return self.name
+        currentlabel = self.name + " | "
+        for counter in self.counters:
+            currentlabel += str(self.counters[counter]) + " " + counter + " counters, "
+        if len(self.counters) > 0:
+            currentlabel = currentlabel[:-2] # to remove last comma and space
+            currentlabel += " | "
+        for effect in self.misc_effects:
+            currentlabel += str(effect) + ", "
+        if len(self.misc_effects) > 0:
+            currentlabel = currentlabel[:-2] # to remove last comma and space
+        return currentlabel
     
     def getPower(self) -> None:
         currentPower = self.power
