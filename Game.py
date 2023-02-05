@@ -53,7 +53,7 @@ class Game:
                         SBAperformed = True
             
         if SBAperformed:
-            stateBasedActions()
+            self.stateBasedActions()
         """
         704.5. The state-based actions are as follows:
 704.5a If a player has 0 or less life, that player loses the game.

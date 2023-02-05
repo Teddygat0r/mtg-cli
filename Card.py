@@ -36,6 +36,9 @@ class Card:
         self.power = power
         self.toughness = toughness
 
+        self.prevention: dict[str, list[function]] = {}
+        self.replacement: dict[str, list[function]] = {}
+
     def __str__(self):
         return self.name
     
@@ -60,9 +63,22 @@ class Card:
         return currentToughness
     
     def destroy(self):
-        #trigger any regeneration effects and indestructible
-        self.dies()
+        #Trigger replacement effects
+        if (self.getTriggerInDict(self.destroy, self.prevention)):
+            return
+
+        #Trigger replacement effects
+        if (self.getTriggerInDict(self.destroy, self.replacement)):
+            for x in self.replacement["destroy"]:
+                x()
+        else:
+            self.death()
         
-    def dies(self):
+    def death(self):
+
         self.zone = "Graveyard"
         #trigger "when this dies/when this is put in a graveyard from the battlefield"
+    
+    #Returns a boolean, whether the function's name is within a dictionary
+    def getTriggerInDict(self, fcn, dictionary: dict) -> bool:
+        return fcn.__name__ in dictionary
