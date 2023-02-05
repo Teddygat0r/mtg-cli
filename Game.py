@@ -12,16 +12,8 @@ class Game:
     def stateBasedActions(self):
         SBAperformed = False
         for player in [self.player1, self.player2]:
+            #handle losing the game here?
             for currentCard in player.battlefield:
-                if "Token" in currentCard.typeline:
-                    #SBA 704.5d
-                    if currentCard.zone != "Battlefield":
-                            #delete the card or something
-                            SBAperformed = True
-                if currentCard.is_copy and currentCard.zone != "Stack" and currentCard.zone != "Battlefield":
-                    #SBA 704.5e
-                    #delete the card idk how to implement
-                    SBAperformed = True
                 if "Creature" in currentCard.typeline:
                     if currentCard.getToughness <= 0:
                         #SBA 704.5f
@@ -32,6 +24,11 @@ class Game:
                         currentCard.destroy()
                         SBAperformed = True
                     #how to implement deathtouch?
+                if "Planeswalker" in currentCard.typeline:
+                    if "Loyalty" not in currentCard.counters:
+                        #SBA 704.5i, this assumes all values of 0 are removed from the counters dictionary
+                        currentCard.dies()
+                        SBAperformed = True
                 if "+1/+1" in currentCard.counters and "-1/-1" in currentCard.counters:
                     #SBA 704.5q
                     if currentCard.counters["+1/+1"] > currentCard.counters["-1/-1"]:
@@ -47,7 +44,14 @@ class Game:
                         del currentCard.counters["-1/-1"]
                         SBAperformed = True
                 
-                    
+            for zone in [player.hand, player.library, player.graveyard, player.exile]:
+                for currentCard in zone:
+                    if "Token" in currentCard.typeline or currentCard.is_copy:
+                        #SBA 704.5d and 704.5e
+                        #delete the card or something
+                        zone.remove(currentCard)
+                        SBAperformed = True
+            
         if SBAperformed:
             stateBasedActions()
         """
