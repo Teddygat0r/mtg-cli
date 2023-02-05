@@ -39,10 +39,10 @@ class Card:
         self.prevention: dict[str, list[function]] = {}
         self.replacement: dict[str, list[function]] = {}
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
     
-    def getPower(self):
+    def getPower(self) -> None:
         currentPower = self.power
         if "+1/+1" in self.counters:
             currentPower += self.counters["+1/+1"]
@@ -52,7 +52,7 @@ class Card:
         #TODO: apply modifiers from self.misc_effects(this is presumably where combat tricks go)
         return currentPower
     
-    def getToughness(self):
+    def getToughness(self) -> None:
         currentToughness = self.toughness
         if "+1/+1" in self.counters:
             currentToughness += self.counters["+1/+1"]
@@ -62,16 +62,9 @@ class Card:
         #TODO: apply modifiers from self.misc_effects(this is presumably where combat tricks go)
         return currentToughness
     
-    def destroy(self):
+    def destroy(self) -> None:
         #Trigger replacement effects
-        if (self.getTriggerInDict(self.destroy, self.prevention)):
-            return
-
-        #Trigger replacement effects
-        if (self.getTriggerInDict(self.destroy, self.replacement)):
-            for x in self.replacement["destroy"]:
-                x()
-        else:
+        if not self.runPreventionAndReplacementEffects(self.destroy):
             self.death()
         
     def death(self):
@@ -82,3 +75,14 @@ class Card:
     #Returns a boolean, whether the function's name is within a dictionary
     def getTriggerInDict(self, fcn, dictionary: dict) -> bool:
         return fcn.__name__ in dictionary
+    
+    #Runs all replacement effects within this card. Returns True if replacement or prevention effects exist within the card.
+    def runPreventionAndReplacementEffects(self, fcn) -> bool:
+        if(self.getTriggerInDict(fcn, self.prevention)):
+            return True
+        if(self.getTriggerInDict(fcn, self.replacement)):
+            for x in self.replacement[fcn.__name__]:
+                x()
+            return True
+        else:
+            return False
