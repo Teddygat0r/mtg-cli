@@ -10,6 +10,12 @@ class Game:
         self.player2 = player2
         self.stack = []
     
+
+    #Moves a Card from one zone to another. Creates a new object, deletes the old one
+    def moveZone(self, origin: list, result: list, oIn: int = 0, rIn: int = -1) -> bool:
+        result.insert(type(origin[oIn]), rIn)
+
+
     def pregame(self):
         #Choose who gets first turn here maybe. I'm lazy and think we should randomly select outside the game object.
         

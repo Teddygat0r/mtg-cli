@@ -28,6 +28,5 @@ class Player:
     def loseGame(self):
         print(f'death {self.name}')
 
-    #def moveZone(self, obj, d)
-            
+    
     
