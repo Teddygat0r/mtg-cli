@@ -12,6 +12,7 @@ class Player:
         self.graveyard = []
         self.exile = []
         self.battlefield = []
+        self.mana_pool = {}
         self.drew_from_empty = False
 
     def drawCards(self, x: int):
@@ -22,10 +23,10 @@ class Player:
             self.drew_from_empty = True
         else:
             self.hand.append(copy.deepcopy(self.library[0]))
-            self.hand[-1].zone = "Hand"
+            self.hand[-1].zone = "hand"
             del self.library[0]
             
     def loseGame(self):
-        print('death')
+        print(f'death {self.name}')
             
     
