@@ -8,8 +8,8 @@ import utils
 myPlayer1 = Player([], 'player 1')
 myPlayer2 = Player([], 'player 2')
 
-myPlayer1.library = [Mountain('library', myPlayer1)] * 24 + [Goblin('library', myPlayer1)] * 36
-myPlayer2.library = [Mountain('library', myPlayer1)] * 24 + [Goblin('library', myPlayer1)] * 36
+myPlayer1.library = [Mountain('Library', myPlayer1)] * 24 + [Goblin('Library', myPlayer1)] * 36
+myPlayer2.library = [Mountain('Library', myPlayer1)] * 24 + [Goblin('Library', myPlayer1)] * 36
 
 game = Game(myPlayer1, myPlayer2)
 game.pregame()

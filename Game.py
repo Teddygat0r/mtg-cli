@@ -9,9 +9,26 @@ class Game:
         self.player1 = player1
         self.player2 = player2
         self.stack = []
-    
+
+    #Rolls two dice.
+    def roll(self):
+        p1roll, p2roll = random.randint(1, 6)
+        print("Player 1 rolled a ", p1roll)
+        print("Player 2 rolled a ", p2roll)
+        return p1roll, p2roll
+        
     def pregame(self):
         #Choose who gets first turn here maybe. I'm lazy and think we should randomly select outside the game object.
+        #what if we just did it here so the game class is a full game
+        
+        p1roll, p2roll = roll()
+        while p1roll == p2roll:
+            p1roll, p2roll = roll()
+        if p1roll > p2roll:
+            #ask p1 whether to play or draw
+        else:
+            #ask p2 whether to play or draw
+        #do whatever it is that determines whos turn it is first
         
         #Player 1 Mulligan
         for player in [self.player1, self.player2]:
@@ -19,8 +36,8 @@ class Game:
             x = 7
 
             while mull and x > 0:
-                random.shuffle(self.player1.library)
-                random.shuffle(self.player2.library)
+                player1.shuffleLibrary()
+                player2.shuffleLibrary()
                 player.drawCards(x)
                 print(utils.formatList(player.hand))
 
@@ -54,6 +71,15 @@ class Game:
             
             #handle losing the game here?
             
+            #TODO: make the zone arrays in the player classes also reflect a card being moved zones due to SBAs
+            for zone in [player.hand, player.library, player.graveyard, player.exile]:
+                for currentCard in zone:
+                    if "Token" in currentCard.typeline or currentCard.is_copy:
+                        #SBA 704.5d and 704.5e
+                        #delete the card or something
+                        zone.remove(currentCard)
+                        SBAperformed = True
+                        
             for currentCard in player.battlefield:
                 if "Creature" in currentCard.typeline:
                     if currentCard.getToughness <= 0:
@@ -86,13 +112,7 @@ class Game:
                         del currentCard.counters["-1/-1"]
                         SBAperformed = True
                 
-            for zone in [player.hand, player.library, player.graveyard, player.exile]:
-                for currentCard in zone:
-                    if "Token" in currentCard.typeline or currentCard.is_copy:
-                        #SBA 704.5d and 704.5e
-                        #delete the card or something
-                        zone.remove(currentCard)
-                        SBAperformed = True
+
             
         if SBAperformed:
             self.stateBasedActions()

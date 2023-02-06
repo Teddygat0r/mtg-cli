@@ -15,7 +15,7 @@ class Card:
         self.name = name
         self.mana_cost = cost
         self.typeline = types
-        self.zone = currentzone
+        self.zone = currentzone # zones will be Hand, Library, Graveyard, Exile, Command
         self.controller = ownerplayer
         self.owner = ownerplayer
         

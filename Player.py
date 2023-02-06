@@ -23,11 +23,14 @@ class Player:
             self.drew_from_empty = True
         else:
             self.hand.append(self.library.pop(0))
-            self.hand[-1].zone = "hand"
+            self.hand[-1].zone = "Hand"
             
     def loseGame(self):
         print(f'death {self.name}')
 
+    def shuffleLibrary(self):
+        #trigger cosi's trickster here
+        random.shuffle(sef.library)
     #def moveZone(self, obj, d)
             
     
