@@ -4,10 +4,11 @@ import random
 import utils
 import copy
 
-class Game: 
+class Game:
     def __init__(self, player1, player2):
         self.player1 = player1
         self.player2 = player2
+        self.stack = []
     
     def pregame(self):
         #Choose who gets first turn here maybe. I'm lazy and think we should randomly select outside the game object.
@@ -30,9 +31,7 @@ class Game:
                     for temp in range(x):
                         player.library.append(player.hand.pop(0))
                         player.library[-1].zone = "library"
-
                     x -= 1
-                    
 
     def stateBasedActions(self):
         SBAperformed = False
