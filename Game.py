@@ -1,6 +1,6 @@
 import Player
 import Card
-import copy
+
 
 class Game: 
     player1 = None
@@ -37,13 +37,14 @@ class Game:
                 if "Creature" in currentCard.typeline:
                     if currentCard.getToughness <= 0:
                         #SBA 704.5f
-                        currentCard.dies()
-                        SBAperformed = True
-                    elif currentCard.damage >= currentCard.getToughness:
-                        #SBA 704.5g
-                        currentCard.destroy()
-                        SBAperformed = True
-                    #how to implement deathtouch?
+                        if currentCard.dies():
+                            SBAperformed = True
+                    elif currentCard.damage >= currentCard.getToughness or currentCard.deathtouched:
+                        #SBA 704.5g and 704.5h
+                        if currentCard.destroy():
+                            SBAperformed = True
+                
+                
                 if "Planeswalker" in currentCard.typeline:
                     if "Loyalty" not in currentCard.counters:
                         #SBA 704.5i, this assumes all values of 0 are removed from the counters dictionary

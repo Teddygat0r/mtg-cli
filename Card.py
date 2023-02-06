@@ -33,6 +33,7 @@ class Card:
         self.etb_this_turn: bool = False # needed for cards like Mirrex
         self.flipped: bool = False # this isn't relevant to standard
         self.damage: int = 0
+        self.deathtouched: bool = False # whether this card was dealt damage by a source with deathtouch, to help with SBA 704.5h
         
         self.power = power
         self.toughness = toughness
@@ -42,18 +43,26 @@ class Card:
 
     def __str__(self) -> str:
         currentlabel = self.name + " | "
+        
         for counter in self.counters:
-            currentlabel += str(self.counters[counter]) + " " + counter + " counters, "
+            if self.counters[counter] == 1:
+                currentlabel += str(self.counters[counter]) + " " + counter + " counter, "
+            else:
+                currentlabel += str(self.counters[counter]) + " " + counter + " counters, "
         if len(self.counters) > 0:
             currentlabel = currentlabel[:-2] # to remove last comma and space
             currentlabel += " | "
+            
         for effect in self.misc_effects:
             currentlabel += str(effect) + ", "
         if len(self.misc_effects) > 0:
             currentlabel = currentlabel[:-2] # to remove last comma and space
+            
+        if self.etb_this_turn:
+            currentlabel += " | entered this turn"
         return currentlabel
     
-    def getPower(self) -> None:
+    def getPower(self) -> int:
         currentPower = self.power
         if "+1/+1" in self.counters:
             currentPower += self.counters["+1/+1"]
@@ -63,7 +72,7 @@ class Card:
         #TODO: apply modifiers from self.misc_effects(this is presumably where combat tricks go)
         return currentPower
     
-    def getToughness(self) -> None:
+    def getToughness(self) -> int:
         currentToughness = self.toughness
         if "+1/+1" in self.counters:
             currentToughness += self.counters["+1/+1"]
@@ -73,15 +82,21 @@ class Card:
         #TODO: apply modifiers from self.misc_effects(this is presumably where combat tricks go)
         return currentToughness
     
-    def destroy(self) -> None:
+    # Returns True if the creature was destroyed.
+    def destroy(self) -> bool:
         #Trigger replacement effects
         if not self.runPreventionAndReplacementEffects(self.destroy):
             self.death()
+            return True
+        return False
         
-    def death(self):
-
-        self.zone = "Graveyard"
-        #trigger "when this dies/when this is put in a graveyard from the battlefield"
+    # Returns True if the creature actually died.  
+    def death(self) -> bool:
+        if not self.runPreventionAndReplacementEffects(self.death):
+            self.zone = "Graveyard"
+            #trigger "when this dies/when this is put in a graveyard from the battlefield"
+            return True
+        return False
     
     #Returns a boolean, whether the function's name is within a dictionary
     def getTriggerInDict(self, fcn, dictionary: dict) -> bool:
