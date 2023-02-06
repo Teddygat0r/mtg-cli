@@ -1,33 +1,55 @@
-import Player
-import Card
-
+from Player import Player
+from Card import Card
+import random
+import utils
+import copy
 
 class Game: 
-    player1 = None
-    player2 = None
+    def __init__(self, player1, player2):
+        self.player1 = player1
+        self.player2 = player2
+    
+    def pregame(self):
+        #Choose who gets first turn here maybe. I'm lazy and think we should randomly select outside the game object.
+        
+        #Player 1 Mulligan
+        for player in [self.player1, self.player2]:
+            mull = True
+            x = 7
 
-    def __init__(self):
-        player1 = Player([], "player1")
-        player2 = Player([], "player2")
-    
-    
-    
+            while mull and x > 0:
+                random.shuffle(self.player1.library)
+                random.shuffle(self.player2.library)
+                player.drawCards(x)
+                print(utils.formatList(player.hand))
+
+                uIn = input('Will you keep this hand: (T/F)')
+                if(uIn.lower()[0] == 't'):
+                    mull = False
+                else:
+                    for temp in range(x):
+                        player.library.append(player.hand.pop(0))
+                        player.library[-1].zone = "library"
+
+                    x -= 1
+                    
+
     def stateBasedActions(self):
         SBAperformed = False
         
         for player in [self.player1, self.player2]:
             player1lost = False
             player2lost = False
-            if player1.life <= 0:
+            if self.player1.life <= 0:
                 #SBA 704.5a
                 player1lost = True
-            if player1.drew_from_empty:
+            if self.player1.drew_from_empty:
                 #SBA 704.5b
                 player1lost = True
-            if player2.life <= 0:
+            if self.player2.life <= 0:
                 #SBA 704.5a
                 player2lost = True
-            if player2.drew_from_empty:
+            if self.player2.drew_from_empty:
                 #SBA 704.5b
                 player2lost = True
             

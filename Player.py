@@ -22,9 +22,8 @@ class Player:
         if len(self.library) == 0:
             self.drew_from_empty = True
         else:
-            self.hand.append(copy.deepcopy(self.library[0]))
+            self.hand.append(self.library.pop(0))
             self.hand[-1].zone = "hand"
-            del self.library[0]
             
     def loseGame(self):
         print(f'death {self.name}')
