@@ -11,10 +11,22 @@ class Card:
     using https://media.wizards.com/2023/downloads/MagicCompRules%2020230203.pdf 107.4(page 15) to determine mana order
     """
     
-    def __init__(self, name: str, cost: dict[str, int], types: list[str], currentzone: str, ownerplayer: Player, power: int=0, toughness: int=0):
+    """
+    Constructor requires:
+    Name(str)
+    Cost(dict)
+    Supertypes(array of strings)
+    Subtypes(array of strings)
+    Current zone(string)
+    Owner(Player)
+    Power(int)
+    Toughness(int)
+    """
+    def __init__(self, name: str, cost: dict[str, int], supertypeline: list[str], subtypeline: list[str],currentzone: str, ownerplayer: Player, power: int=0, toughness: int=0):
         self.name = name
         self.mana_cost = cost
-        self.typeline = types
+        self.supertypes = supertypeline
+        self.subtypes = subtypeline
         self.zone = currentzone # zones will be Hand, Library, Graveyard, Exile, Command
         self.controller = ownerplayer
         self.owner = ownerplayer

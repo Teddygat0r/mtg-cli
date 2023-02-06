@@ -31,6 +31,12 @@ class Player:
     def shuffleLibrary(self):
         #trigger cosi's trickster here
         random.shuffle(sef.library)
+        
+    def counterCount(self, counterType):
+        if counterType in self.counters:
+            return self.counters[counterType]
+        else:
+            return 0
     #def moveZone(self, obj, d)
             
     

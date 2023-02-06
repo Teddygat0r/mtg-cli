@@ -56,6 +56,8 @@ class Game:
         for player in [self.player1, self.player2]:
             player1lost = False
             player2lost = False
+            
+            #TODO: rework this so that theres a distinction between losing the game to damage, drawing from empty, or 10 poison
             if self.player1.life <= 0:
                 #SBA 704.5a
                 player1lost = True
