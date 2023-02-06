@@ -30,7 +30,7 @@ class Player:
 
     def shuffleLibrary(self):
         #trigger cosi's trickster here
-        random.shuffle(sef.library)
+        random.shuffle(self.library)
         
     def counterCount(self, counterType):
         if counterType in self.counters:

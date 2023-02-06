@@ -27,13 +27,15 @@ class Game:
         #Choose who gets first turn here maybe. I'm lazy and think we should randomly select outside the game object.
         #what if we just did it here so the game class is a full game
         
-        p1roll, p2roll = roll()
+        p1roll, p2roll = self.roll()
         while p1roll == p2roll:
-            p1roll, p2roll = roll()
+            p1roll, p2roll = self.roll()
         if p1roll > p2roll:
             #ask p1 whether to play or draw
+            pass
         else:
             #ask p2 whether to play or draw
+            pass
         #do whatever it is that determines whos turn it is first
         
         #Player 1 Mulligan
@@ -42,8 +44,8 @@ class Game:
             x = 7
 
             while mull and x > 0:
-                player1.shuffleLibrary()
-                player2.shuffleLibrary()
+                self.player1.shuffleLibrary()
+                self.player2.shuffleLibrary()
                 player.drawCards(x)
                 print(utils.formatList(player.hand))
 
