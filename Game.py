@@ -15,16 +15,16 @@ class Game:
         self.turn = 0
     
     def pregame(self):
-        random.shuffle(self.player1.library)
-        random.shuffle(self.player2.library)
-
         #Choose who gets first turn here maybe. I'm lazy and think we should randomly select outside the game object.
         
         #Player 1 Mulligan
         for player in [self.player1, self.player2]:
             mull = True
             x = 7
+
             while mull and x > 0:
+                random.shuffle(self.player1.library)
+                random.shuffle(self.player2.library)
                 player.drawCards(x)
                 print(utils.formatList(player.hand))
 
@@ -32,11 +32,13 @@ class Game:
                 if(uIn.lower()[0] == 't'):
                     mull = False
                 else:
-                    x -= 1
-                    for card in player.hand:
+                    for temp in range(x):
                         player.library.append(copy.deepcopy(player.hand[0]))
                         player.library[-1].zone = "library"
                         del player.hand[0]
+
+                    x -= 1
+                    
 
     def stateBasedActions(self):
         SBAperformed = False
