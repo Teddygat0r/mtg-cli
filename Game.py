@@ -1,33 +1,59 @@
-import Player
-import Card
+from Player import Player
+from Card import Card
 import copy
+import random
+import utils
 
 class Game: 
     player1 = None
     player2 = None
 
-    def __init__(self):
-        player1 = Player([], "player1")
-        player2 = Player([], "player2")
+    def __init__(self, p1: Player, p2: Player):
+        self.player1 = p1
+        self.player2 = p2
+
+        self.turn = 0
     
-    
-    
+    def pregame(self):
+        random.shuffle(self.player1.library)
+        random.shuffle(self.player2.library)
+
+        #Choose who gets first turn here maybe. I'm lazy and think we should randomly select outside the game object.
+        
+        #Player 1 Mulligan
+        for player in [self.player1, self.player2]:
+            mull = True
+            x = 7
+            while mull and x > 0:
+                player.drawCards(x)
+                print(utils.formatList(player.hand))
+
+                uIn = input('Will you keep this hand: (T/F)')
+                if(uIn.lower()[0] == 't'):
+                    mull = False
+                else:
+                    x -= 1
+                    for card in player.hand:
+                        player.library.append(copy.deepcopy(player.hand[0]))
+                        player.library[-1].zone = "library"
+                        del player.hand[0]
+
     def stateBasedActions(self):
         SBAperformed = False
         
         for player in [self.player1, self.player2]:
             player1lost = False
             player2lost = False
-            if player1.life <= 0:
+            if self.player1.life <= 0:
                 #SBA 704.5a
                 player1lost = True
-            if player1.drew_from_empty:
+            if self.player1.drew_from_empty:
                 #SBA 704.5b
                 player1lost = True
-            if player2.life <= 0:
+            if self.player2.life <= 0:
                 #SBA 704.5a
                 player2lost = True
-            if player2.drew_from_empty:
+            if self.player2.drew_from_empty:
                 #SBA 704.5b
                 player2lost = True
             
@@ -130,3 +156,4 @@ Implemented:
 
 
 """
+
