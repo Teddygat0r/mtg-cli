@@ -5,12 +5,16 @@ import utils
 import copy
 
 class Game:
+
+    
     def __init__(self, player1, player2):
         self.player1 = player1
         self.player2 = player2
         self.stack = []
-
-
+        self.turnOrder = []
+        self.turnNumber = 0
+        self.gameEnded = False
+        
     #Moves a Card from one zone to another. Creates a new object, deletes the old one
     def moveZone(self, origin: list, result: list, oIn: int = 0, rIn: int = -1) -> bool:
         result.insert(type(origin[oIn]), rIn)
@@ -18,7 +22,7 @@ class Game:
 
     #Rolls two dice.
     def roll(self):
-        p1roll, p2roll = random.randint(1, 6)
+        p1roll, p2roll = random.randint(1, 6), random.randint(1, 6)
         print("Player 1 rolled a ", p1roll)
         print("Player 2 rolled a ", p2roll)
         return p1roll, p2roll
@@ -32,12 +36,22 @@ class Game:
             p1roll, p2roll = self.roll()
         if p1roll > p2roll:
             #ask p1 whether to play or draw
+            uIn = input('Player 1 wins the roll. Will they (P)lay or (D)raw?')
+            if uIn.lower()[0] == 'p':
+                self.turnOrder = [player1, player2]
+            else:
+                self.turnOrder = [player2, player1]
             pass
         else:
             #ask p2 whether to play or draw
+            uIn = input('Player 1 wins the roll. Will they (P)lay or (D)raw?')
+            if uIn.lower()[0] == 'p':
+                self.turnOrder = [player2, player1]
+            else:
+                self.turnOrder = [player1, player2]
             pass
         #do whatever it is that determines whos turn it is first
-        
+        self.turnorder = []
         #Player 1 Mulligan
         for player in [self.player1, self.player2]:
             mull = True
@@ -58,6 +72,37 @@ class Game:
                         player.library[-1].zone = "library"
                     x -= 1
 
+    def runGame(self):
+        while !self.gameEnded:
+            self.turnNumber += 1
+            print("Turn ", self.turnNumber)
+            for player in self.turnOrder:
+                turn(player)
+                if self.gameEnded:
+                    break
+        
+    def turn(self, activePlayer):
+        
+        """
+        run one turn of the game here, which consists of:
+        Untap(do automatically because nobody gets priority)
+        Upkeep
+        Draw
+        Main 1
+        Beginning of Combat
+        Declare Attackers
+        Declare Blockers
+        Combat Damage
+        End of Combat
+        Main 2
+        End Step
+        Cleanup Step
+        Break immediately if somebody loses the game to SBAs and make self.gameEnded = True
+        """
+        
+    def givePriority(player):
+        #give 
+    
     def stateBasedActions(self):
         SBAperformed = False
         
