@@ -18,6 +18,7 @@ class Player:
     def drawCards(self, x: int):
         for i in range(x):
             self.draw()
+            
     def draw(self):
         if len(self.library) == 0:
             self.drew_from_empty = True
@@ -37,6 +38,8 @@ class Player:
             return self.counters[counterType]
         else:
             return 0
+            
+
     #def moveZone(self, obj, d)
             
     

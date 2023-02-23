@@ -116,6 +116,7 @@ class Card:
     
     #Runs all replacement effects within this card. Returns True if replacement or prevention effects exist within the card.
     def runPreventionAndReplacementEffects(self, fcn) -> bool:
+    
         if(self.getTriggerInDict(fcn, self.prevention)):
             return True
         if(self.getTriggerInDict(fcn, self.replacement)):
@@ -124,3 +125,9 @@ class Card:
             return True
         else:
             return False
+            
+    def resolve(self, gameObject):
+        #idk lol
+           
+    def untap(self):
+        self.tapped = False

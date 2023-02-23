@@ -14,13 +14,16 @@ class Game:
         self.turnOrder = []
         self.turnNumber = 0
         self.gameEnded = False
+        self.currentPhase = "Untap" # Untap, Upkeep, Draw, Main1, BeginCombat, 
+        #DeclareAttacks, DeclareBlocks, CombatDamage, EndCombat, Main2, End, Cleanup
+        
         
     #Moves a Card from one zone to another. Creates a new object, deletes the old one
     def moveZone(self, origin: list, result: list, oIn: int = 0, rIn: int = -1) -> bool:
         result.insert(type(origin[oIn]), rIn)
 
 
-    #Rolls two dice.
+    #Rolls two dice. Tie handling is in pregame().
     def roll(self):
         p1roll, p2roll = random.randint(1, 6), random.randint(1, 6)
         print("Player 1 rolled a ", p1roll)
@@ -81,8 +84,7 @@ class Game:
                 if self.gameEnded:
                     break
         
-    def turn(self, activePlayer):
-        
+    def turn(self, activePlayerIndex):
         """
         run one turn of the game here, which consists of:
         Untap(do automatically because nobody gets priority)
@@ -99,9 +101,50 @@ class Game:
         Cleanup Step
         Break immediately if somebody loses the game to SBAs and make self.gameEnded = True
         """
+        activePlayer = self.turnOrder[activePlayerIndex]
+        nonActivePlayer = self.turnOrder[1 - activePlayerIndex]
+        #untap step, no one gets priority 
+        self.currentPhase = "Untap"
+        for card in self.turnOrder[activePlayerIndex].battlefield:
+            card.untap()
+            #TODO: handle unwinding clock-like effects here
         
-    def givePriority(player):
-        #give 
+        self.currentPhase = "Upkeep"
+        #TODO: handle "at the beginning of your upkeep" stuff here
+        phase(activePlayer, nonActivePlayer)
+        
+        self.currentPhase = "Draw"
+        activePlayer.draw()
+        phase(activePlayer, nonActivePlayer)
+        
+        self.currentPhase = "Main1"
+        phase(activePlayer, nonActivePlayer)
+        
+        self.currentPhase = "BeginCombat"
+        phase(activePlayer, nonActivePlayer)
+        
+    #Gives both players priority until both players pass and the stack is empty
+    def phase(self, activePlayer, nonActivePlayer):
+        print("\n----" + self.currentPhase + "----\n")
+        phaseOver = False:
+        while not phaseOver:
+            if givePriority(activePlayer):
+                continue
+            else if givePriority(nonActivePlayer):
+                continue
+            else if len(self.stack) != 0:
+                self.stack[-1].resolve(self)
+                del self.stack[-1]
+            else:
+                phaseOver = False
+    
+    
+    #Gets a list of every possible action the player could take and then prompts the player what to do.
+    #Returns True if an action was taken and False if priority was passed.
+    def givePriority(self, player) -> bool:
+        stateBasedActions()
+        return False
+        
     
     def stateBasedActions(self):
         SBAperformed = False
