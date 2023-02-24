@@ -123,6 +123,20 @@ class Game:
         self.currentPhase = "BeginCombat"
         phase(activePlayer, nonActivePlayer)
         
+        self.currentPhase = "DeclareAttacks"
+        
+        self.currentPhase = "DeclareBlocks"
+        
+        self.currentPhase = "CombatDamage"
+        
+        self.currentPhase = "EndCombat"
+        
+        self.currentPhase = "Main2"
+        
+        self.currentPhase = "End"
+        
+        self.currentPhase = "Cleanup"
+        
     #Gives both players priority until both players pass and the stack is empty
     def phase(self, activePlayer, nonActivePlayer):
         print("\n----" + self.currentPhase + "----\n")
