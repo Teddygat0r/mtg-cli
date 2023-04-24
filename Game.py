@@ -43,17 +43,17 @@ class Game:
             #ask p1 whether to play or draw
             uIn = input('Player 1 wins the roll. Will they (P)lay or (D)raw?')
             if uIn.lower()[0] == 'p':
-                self.turnOrder = [player1, player2]
+                self.turnOrder = [self.player1, self.player2]
             else:
-                self.turnOrder = [player2, player1]
+                self.turnOrder = [self.player2, self.player1]
             pass
         else:
             #ask p2 whether to play or draw
             uIn = input('Player 2 wins the roll. Will they (P)lay or (D)raw?')
             if uIn.lower()[0] == 'p':
-                self.turnOrder = [player2, player1]
+                self.turnOrder = [self.player2, self.player1]
             else:
-                self.turnOrder = [player1, player2]
+                self.turnOrder = [self.player1, self.player2]
             pass
         #do whatever it is that determines whos turn it is first
         self.turnorder = []
@@ -82,7 +82,7 @@ class Game:
             self.turnNumber += 1
             print("Turn ", self.turnNumber)
             for player in self.turnOrder:
-                turn(player)
+                self.turn(player)
                 if self.gameEnded:
                     break
         
@@ -113,17 +113,17 @@ class Game:
         
         self.currentPhase = "Upkeep"
         #TODO: handle "at the beginning of your upkeep" stuff here
-        phase(activePlayer, nonActivePlayer)
+        self.phase(activePlayer, nonActivePlayer)
         
         self.currentPhase = "Draw"
         activePlayer.draw()
-        phase(activePlayer, nonActivePlayer)
+        self.phase(activePlayer, nonActivePlayer)
         
         self.currentPhase = "Main1"
-        phase(activePlayer, nonActivePlayer)
+        self.phase(activePlayer, nonActivePlayer)
         
         self.currentPhase = "BeginCombat"
-        phase(activePlayer, nonActivePlayer)
+        self.phase(activePlayer, nonActivePlayer)
         
         self.currentPhase = "DeclareAttacks"
         
@@ -144,9 +144,9 @@ class Game:
         print("\n----" + self.currentPhase + "----\n")
         phaseOver = False
         while not phaseOver:
-            if givePriority(activePlayer):
+            if self.givePriority(activePlayer):
                 continue
-            elif givePriority(nonActivePlayer):
+            elif self.givePriority(nonActivePlayer):
                 continue
             elif len(self.stack) != 0:
                 self.stack[-1].resolve(self)
@@ -158,7 +158,7 @@ class Game:
     #Gets a list of every possible action the player could take and then prompts the player what to do.
     #Returns True if an action was taken and False if priority was passed.
     def givePriority(self, player) -> bool:
-        stateBasedActions()
+        self.stateBasedActions()
         return False
         
     
