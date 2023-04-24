@@ -131,8 +131,9 @@ class Card:
         self.tapped = False
     
     #Appends any actions a player can perform with priority in this card's current state.(Casting, activating abilities, suspending, etc)
-    def updateActions(actionList):
-        actionList.append(castFromHand)
+    def updateActions(activePlayer, actionList):
+        if activePlayer == self.owner and self.zone == "Hand":
+            actionList.append(castFromHand)
         
     #Precondition: The card is in its owner's hand
     def castFromHand():
