@@ -6,6 +6,7 @@ class Player:
         self.library = deck # deck is probably an array of cards
         random.shuffle(self.library) # self.library[0] = top card of library
         self.life = 20
+        self.game = None # Will be a reference to the game object containing the players
         self.name = name
         self.counters = {}
         self.hand = []
@@ -39,7 +40,10 @@ class Player:
             return self.counters[counterType]
         else:
             return 0
-            
+    #TODO: implement this
+    #will take in a dictionary(manaCost) and prompt the player to use mana from their mana pool to satisfy requirements, will return True if cost was successfully paid and False otherwise
+    def payMana(manaCost):
+        return False
 
     #def moveZone(self, obj, d)
             

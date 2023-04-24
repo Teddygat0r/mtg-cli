@@ -1,6 +1,5 @@
 import Player
 
-
 class Card:  
 
     """
@@ -27,7 +26,7 @@ class Card:
         self.mana_cost = cost
         self.supertypes = supertypeline
         self.subtypes = subtypeline
-        self.zone = currentzone # zones will be Hand, Library, Graveyard, Exile, Command
+        self.zone = currentzone # zones will be Hand, Library, Graveyard, Exile, Stack, Command
         self.controller = ownerplayer
         self.owner = ownerplayer
         
@@ -52,7 +51,9 @@ class Card:
 
         self.prevention: dict[str, list[function]] = {}
         self.replacement: dict[str, list[function]] = {}
-
+        
+        
+        
     def __str__(self) -> str:
         currentlabel = self.name + " | "
         
@@ -123,11 +124,16 @@ class Card:
             for x in self.replacement[fcn.__name__]:
                 x()
             return True
-        else:
-            return False
+        return False
             
-    def resolve(self, gameObject):
-        #idk lol
            
     def untap(self):
         self.tapped = False
+    
+    #Appends any actions a player can perform with priority in this card's current state.(Casting, activating abilities, suspending, etc)
+    def updateActions(actionList):
+        actionList.append(castFromHand)
+        
+    #Precondition: The card is in its owner's hand
+    def castFromHand():
+        self.zone="Stack"

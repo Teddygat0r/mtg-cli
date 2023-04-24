@@ -10,6 +10,8 @@ class Game:
     def __init__(self, player1, player2):
         self.player1 = player1
         self.player2 = player2
+        player1.game = self
+        player2.game = self
         self.stack = []
         self.turnOrder = []
         self.turnNumber = 0
@@ -76,7 +78,7 @@ class Game:
                     x -= 1
 
     def runGame(self):
-        while !self.gameEnded:
+        while not self.gameEnded:
             self.turnNumber += 1
             print("Turn ", self.turnNumber)
             for player in self.turnOrder:
@@ -140,13 +142,13 @@ class Game:
     #Gives both players priority until both players pass and the stack is empty
     def phase(self, activePlayer, nonActivePlayer):
         print("\n----" + self.currentPhase + "----\n")
-        phaseOver = False:
+        phaseOver = False
         while not phaseOver:
             if givePriority(activePlayer):
                 continue
-            else if givePriority(nonActivePlayer):
+            elif givePriority(nonActivePlayer):
                 continue
-            else if len(self.stack) != 0:
+            elif len(self.stack) != 0:
                 self.stack[-1].resolve(self)
                 del self.stack[-1]
             else:
