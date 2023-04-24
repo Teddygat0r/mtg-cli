@@ -47,7 +47,7 @@ class Game:
             pass
         else:
             #ask p2 whether to play or draw
-            uIn = input('Player 1 wins the roll. Will they (P)lay or (D)raw?')
+            uIn = input('Player 2 wins the roll. Will they (P)lay or (D)raw?')
             if uIn.lower()[0] == 'p':
                 self.turnOrder = [player2, player1]
             else:
@@ -66,8 +66,8 @@ class Game:
                 player.drawCards(x)
                 print(utils.formatList(player.hand))
 
-                uIn = input('Will you keep this hand: (T/F)')
-                if(uIn.lower()[0] == 't'):
+                uIn = input('Will you keep this hand: (Y/N)')
+                if(uIn.lower()[0] == 'Y'):
                     mull = False
                 else:
                     for temp in range(x):
