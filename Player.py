@@ -15,6 +15,7 @@ class Player:
         self.battlefield = []
         self.mana_pool = {}
         self.max_hand_size = 7 # idk how to handle reliquary tower
+        self.lands_played = 0
         self.drew_from_empty = False
 
     def drawCards(self, x: int):

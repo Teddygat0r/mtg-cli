@@ -1,4 +1,5 @@
 import Player
+import pypubsub
 
 class Card:  
 
@@ -26,7 +27,7 @@ class Card:
         self.mana_cost = cost
         self.supertypes = supertypeline
         self.subtypes = subtypeline
-        self.zone = currentzone # zones will be Hand, Library, Graveyard, Exile, Stack, Command
+        self.zone = currentzone # zones will be Hand, Battlefield, Library, Graveyard, Exile, Stack, Command
         self.controller = ownerplayer
         self.owner = ownerplayer
         
@@ -52,6 +53,7 @@ class Card:
         self.prevention: dict[str, list[function]] = {}
         self.replacement: dict[str, list[function]] = {}
         
+        pub.subscribe(updateActions, 'getActions')
         
         
     def __str__(self) -> str:

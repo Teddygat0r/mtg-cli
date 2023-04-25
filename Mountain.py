@@ -15,4 +15,10 @@ class Mountain(Card):
                 self.controller.mana_pool['R'] = 1
             else:
                 self.controller.mana_pool['R'] += 1
-    
+    def updateActions(activePlayer, actionList):
+        if self.currentzone = "Hand" and self.owner.lands_played == 0 and self.owner == activePlayer:
+            actionList.append(landDrop)
+        
+        
+    def landDrop():
+        self.currentzone = "Battlefield"
